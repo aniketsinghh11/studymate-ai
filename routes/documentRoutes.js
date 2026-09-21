@@ -3,7 +3,7 @@ const multer = require('multer');
 const { PDFParse } = require('pdf-parse');
 const fs = require('fs');
 const Document = require('../models/Document');
-
+const chunkText = require('../utils/chunkText');
 const router = express.Router();
 
 const storage = multer.diskStorage({
@@ -26,18 +26,20 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
     parser = new PDFParse({ data: dataBuffer });
     const pdfData = await parser.getText();
 
+    const chunks = chunkText(pdfData.text);
     const newDocument = new Document({
       user: req.body.userId,
       fileName: req.file.originalname,
       extractedText: pdfData.text,
+      chunks: chunks,
     });
 
     await newDocument.save();
 
     res.status(201).json({
-      message: 'File uploaded and text extracted successfully',
-      documentId: newDocument._id,
-      textPreview: pdfData.text.substring(0, 200),
+    message: 'File uploaded and text extracted successfully',documentId: newDocument._id,
+    chunkCount: chunks.length,
+    textPreview: pdfData.text.substring(0, 200),
     });
   } catch (err) {
     res.status(500).json({
