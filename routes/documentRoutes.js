@@ -53,4 +53,21 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
   }
 });
 
+// GET a document's chunks (for AI module to use)
+router.get('/:id', async (req, res) => {
+  try {
+    const document = await Document.findById(req.params.id);
+    if (!document) {
+      return res.status(404).json({ message: 'Document not found' });
+    }
+    res.status(200).json({
+      documentId: document._id,
+      fileName: document.fileName,
+      chunks: document.chunks,
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching document', error: err.message });
+  }
+});
+
 module.exports = router;
