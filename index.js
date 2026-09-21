@@ -3,7 +3,7 @@
    const PORT = 5000;
 
    app.get('/', (req, res) => {
-     res.send('Hello from StudyMate AI backend!');
+     res.send('Hello from StudyMate AI backend by a Gulfum!');
    });
 
    app.listen(PORT, () => {
