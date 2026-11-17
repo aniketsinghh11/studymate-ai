@@ -1,3 +1,5 @@
+.env
+uploads/
 node_modules/
 chroma_data/
 __pycache__/
@@ -8,4 +10,4 @@ ai/*-backup*.py
 ai/*.pdf
 ai/pdf-chunking.js
 ai/pdf-embedding.js
-ai/store-embeddings.py
+ai/store-embeddings.

@@ -1,21 +1,29 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { signup } from '../api'
 
 function Register() {
 
   const navigate = useNavigate()
+const [error, setError] = useState('')
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
 
-    e.preventDefault()
+  e.preventDefault()
+  setError('')
 
-    // Demo registration for frontend
+  try {
+    const result = await signup({ name, email, password })
+    localStorage.setItem('token', result.token)
     navigate('/dashboard')
+  } catch (err) {
+    setError(err.message)
   }
+}
 
   return (
 
@@ -77,6 +85,8 @@ function Register() {
             />
 
           </div>
+
+          {error && <p className="auth-error">{error}</p>}
 
           <button
             type="submit"

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { askAI } from '../api'
 
 function AskAI() {
 
@@ -19,30 +20,32 @@ function AskAI() {
     }
   ])
 
-  const handleSend = () => {
+  const handleSend = async () => {
+  if (question.trim() === '') {
+    return
+  }
 
-    if (question.trim() === '') {
-      return
-    }
+  const userMessage = { type: 'user', text: question }
+  const currentQuestion = question
 
-    const userMessage = {
-      type: 'user',
-      text: question
-    }
+  setMessages((previousMessages) => [...previousMessages, userMessage])
+  setQuestion('')
 
-    const aiMessage = {
-      type: 'ai',
-      text: "I'm currently a demo version. Once the AI backend is connected, I'll answer this question using your uploaded study materials."
-    }
+  try {
+    const result = await askAI(currentQuestion)
 
     setMessages((previousMessages) => [
       ...previousMessages,
-      userMessage,
-      aiMessage
+      { type: 'ai', text: result.answer }
     ])
-
-    setQuestion('')
+  } catch (err) {
+    console.error('Ask AI error:', err);
+    setMessages((previousMessages) => [
+      ...previousMessages,
+      { type: 'ai', text: 'Sorry, I could not reach the AI service. Please try again.' }
+    ])
   }
+}
 
   return (
 

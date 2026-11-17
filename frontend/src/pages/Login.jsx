@@ -1,20 +1,28 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { login } from '../api'
 
 function Login() {
 
   const navigate = useNavigate()
+  const [error, setError] = useState('')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
-    e.preventDefault()
+  e.preventDefault()
+  setError('')
 
-    // Demo login for frontend
+  try {
+    const result = await login({ email, password })
+    localStorage.setItem('token', result.token)
     navigate('/dashboard')
+  } catch (err) {
+    setError(err.message)
   }
+}
 
   return (
 
@@ -62,6 +70,8 @@ function Login() {
             />
 
           </div>
+
+          {error && <p className="auth-error">{error}</p>}
 
           <button
             type="submit"

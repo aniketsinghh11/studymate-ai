@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { uploadPDF } from '../api'
 
 function Notes() {
 
@@ -63,27 +64,28 @@ function Notes() {
   // UPLOAD PDF
   // ================================
 
-  const handleFileChange = (event) => {
+const handleFileChange = async (event) => {
+  const file = event.target.files[0]
+  if (!file) return
 
-    const file = event.target.files[0]
+  try {
+    const result = await uploadPDF(file)
 
-    if (file) {
-
-      const fileData = {
-        name: file.name,
-        size: file.size,
-        type: file.type
-      }
-
-      setSelectedFile(fileData)
-
-      localStorage.setItem(
-        'studymateFile',
-        JSON.stringify(fileData)
-      )
-
+    const fileData = {
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      documentId: result.documentId,
+      chunkCount: result.chunkCount
     }
+
+    setSelectedFile(fileData)
+    localStorage.setItem('studymateFile', JSON.stringify(fileData))
+
+  } catch (err) {
+    alert(err.message)
   }
+}
 
 
   // ================================

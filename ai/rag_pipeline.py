@@ -1,6 +1,3 @@
-
-
-
 from pypdf import PdfReader
 
 from ai.ingestion import ingest_chunks
@@ -11,17 +8,9 @@ from ai.generation import generate_answer
 # ============================================
 
 
-
-
 # ============================================
 # 2. INITIALIZE MODELS / DATABASE
 # ============================================
-
-
-
-
-
-
 
 # ============================================
 # 3. PDF TEXT EXTRACTION
@@ -104,7 +93,7 @@ def process_pdf(pdf_path):
 def answer_question(question):
     retrieved_chunks = retrieve_chunks(
         question,
-        top_k=2
+        top_k=6
     )
 
     answer = generate_answer(
