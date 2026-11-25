@@ -1,356 +1,756 @@
 import { useState } from 'react'
 
+import DashboardSidebar from '../components/DashboardSidebar'
+
+
 function Notes() {
 
-  // ================================
-  // UPLOADED PDF
-  // ================================
+  const userEmail =
+    localStorage.getItem('studymateEmail') || 'guest'
 
-  const [selectedFile, setSelectedFile] = useState(() => {
+  const fileStorageKey =
+    `studymateFiles_${userEmail}`
 
-    const savedFile = localStorage.getItem('studymateFile')
 
-    return savedFile ? JSON.parse(savedFile) : null
+  /* ==========================================
+     UPLOADED FILES
+  ========================================== */
+
+  const [uploadedFiles, setUploadedFiles] = useState(() => {
+
+    const savedFiles =
+      localStorage.getItem(fileStorageKey)
+
+    if (!savedFiles) {
+      return []
+    }
+
+    try {
+
+      return JSON.parse(savedFiles)
+
+    } catch (error) {
+
+      localStorage.removeItem(fileStorageKey)
+
+      return []
+
+    }
 
   })
 
 
-  // ================================
-  // SEARCH
-  // ================================
+  /* ==========================================
+     SEARCH
+  ========================================== */
 
   const [searchTerm, setSearchTerm] = useState('')
 
 
-  // ================================
-  // DEFAULT NOTES
-  // ================================
+  /* ==========================================
+     DEFAULT NOTES
+  ========================================== */
 
   const [notes, setNotes] = useState([
+
     {
       id: 1,
+
       name: 'Data Structures',
-      description: 'Searching, Sorting, Linked List and Trees',
+
+      description:
+        'Searching, Sorting, Linked List and Trees',
+
       pages: '42 pages',
+
       updated: 'Updated today',
+
       icon: '📕',
+
       color: 'purple'
     },
 
     {
       id: 2,
+
       name: 'Java Programming',
-      description: 'OOP, Classes, Objects and Polymorphism',
+
+      description:
+        'OOP, Classes, Objects and Polymorphism',
+
       pages: '35 pages',
+
       updated: 'Updated yesterday',
+
       icon: '📘',
+
       color: 'blue'
     },
 
     {
       id: 3,
+
       name: 'Software Engineering',
-      description: 'Software process models and requirements',
+
+      description:
+        'Software process models and requirements',
+
       pages: '28 pages',
+
       updated: 'Updated 2 days ago',
+
       icon: '📙',
+
       color: 'orange'
     }
+
   ])
 
 
-  // ================================
-  // UPLOAD PDF
-  // ================================
+  /* ==========================================
+     UPLOAD PDF
+  ========================================== */
 
   const handleFileChange = (event) => {
 
-    const file = event.target.files[0]
+    const file =
+      event.target.files[0]
 
-    if (file) {
+    if (!file) {
+      return
+    }
 
-      const fileData = {
-        name: file.name,
-        size: file.size,
-        type: file.type
-      }
 
-      setSelectedFile(fileData)
+    if (
+      file.type !== 'application/pdf' &&
+      !file.name.toLowerCase().endsWith('.pdf')
+    ) {
 
-      localStorage.setItem(
-        'studymateFile',
-        JSON.stringify(fileData)
+      alert(
+        'Please select a PDF file only.'
       )
 
+      event.target.value = ''
+
+      return
     }
+
+
+    const fileData = {
+
+      id: Date.now(),
+
+      name: file.name,
+
+      size: file.size,
+
+      type: 'application/pdf',
+
+      uploadedAt:
+        new Date().toISOString()
+
+    }
+
+
+    const updatedFiles = [
+
+      ...uploadedFiles,
+
+      fileData
+
+    ]
+
+
+    setUploadedFiles(
+      updatedFiles
+    )
+
+
+    localStorage.setItem(
+
+      fileStorageKey,
+
+      JSON.stringify(
+        updatedFiles
+      )
+
+    )
+
+
+    window.dispatchEvent(
+
+      new Event(
+        'studymateFilesChanged'
+      )
+
+    )
+
+
+    event.target.value = ''
+
   }
 
 
-  // ================================
-  // DELETE DEFAULT NOTE
-  // ================================
+  /* ==========================================
+     DELETE DEFAULT NOTE
+  ========================================== */
 
   const deleteNote = (id) => {
 
-    setNotes((previousNotes) =>
-      previousNotes.filter((note) => note.id !== id)
+    setNotes(
+      (previousNotes) =>
+
+        previousNotes.filter(
+          (note) =>
+            note.id !== id
+        )
+
     )
 
   }
 
 
-  // ================================
-  // DELETE UPLOADED PDF
-  // ================================
+  /* ==========================================
+     DELETE UPLOADED PDF
+  ========================================== */
 
-  const deleteUploadedFile = () => {
+  const deleteUploadedFile = (id) => {
 
-    setSelectedFile(null)
+    const updatedFiles =
 
-    localStorage.removeItem('studymateFile')
+      uploadedFiles.filter(
+        (file) =>
+          file.id !== id
+      )
+
+
+    setUploadedFiles(
+      updatedFiles
+    )
+
+
+    localStorage.setItem(
+
+      fileStorageKey,
+
+      JSON.stringify(
+        updatedFiles
+      )
+
+    )
+
+
+    window.dispatchEvent(
+
+      new Event(
+        'studymateFilesChanged'
+      )
+
+    )
 
   }
 
 
-  // ================================
-  // SEARCH NOTES
-  // ================================
+  /* ==========================================
+     SEARCH FILTER
+  ========================================== */
 
-  const filteredNotes = notes.filter((note) =>
-    note.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  )
+  const filteredNotes =
 
+    notes.filter(
+      (note) =>
+
+        note.name
+          .toLowerCase()
+          .includes(
+            searchTerm.toLowerCase()
+          )
+
+    )
+
+
+  const filteredUploadedFiles =
+
+    uploadedFiles.filter(
+      (file) =>
+
+        file.name
+          .toLowerCase()
+          .includes(
+            searchTerm.toLowerCase()
+          )
+
+    )
+
+
+  const totalMaterials =
+
+    filteredNotes.length +
+    filteredUploadedFiles.length
+
+
+  /* ==========================================
+     TOTAL MATERIALS
+  ========================================== */
+
+  const totalStudyMaterials =
+
+    notes.length +
+    uploadedFiles.length
+
+
+  /* ==========================================
+     QUESTION HISTORY
+  ========================================== */
+
+  let totalQuestions = 0
+
+  const savedHistory =
+    localStorage.getItem(
+      'studymateHistory'
+    )
+
+
+  if (savedHistory) {
+
+    try {
+
+      const history =
+        JSON.parse(savedHistory)
+
+      if (Array.isArray(history)) {
+
+        totalQuestions =
+          history.length
+
+      }
+
+    } catch (error) {
+
+      totalQuestions = 0
+
+    }
+
+  }
+
+
+  /* ==========================================
+     PAGE
+  ========================================== */
 
   return (
 
-    <div className="notes-page">
+    <div className="notes-page-layout">
 
-      <div className="notes-container">
-
-
-        {/* ================================
-            HEADER
-        ================================= */}
-
-        <div className="notes-header">
-
-          <div>
-
-            <span className="notes-label">
-              YOUR STUDY MATERIAL
-            </span>
-
-            <h1>
-              My Notes
-            </h1>
-
-            <p>
-              Manage and organize all your study materials in one place.
-            </p>
-
-          </div>
+      <DashboardSidebar />
 
 
-          <label className="upload-notes-btn">
+      <main className="notes-page">
 
-            + Upload Notes
-
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={handleFileChange}
-              hidden
-            />
-
-          </label>
-
-        </div>
+        <div className="notes-container">
 
 
+          {/* ==================================
+              PAGE HEADER
+          ================================== */}
 
-        {/* ================================
-            SEARCH
-        ================================= */}
+          <div className="notes-header">
 
-        <div className="notes-search">
+            <div>
 
-          <span>🔍</span>
+              <span className="notes-label">
 
-          <input
-            type="text"
-            placeholder="Search your notes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+                YOUR STUDY MATERIAL
 
-        </div>
-
-
-
-        {/* ================================
-            SELECTED PDF
-        ================================= */}
-
-        {selectedFile && (
-
-          <div className="selected-file">
-
-            <div className="selected-file-icon">
-              📄
-            </div>
-
-
-            <div className="selected-file-info">
-
-              <strong>
-                {selectedFile.name}
-              </strong>
-
-              <span>
-                {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
               </span>
 
-            </div>
 
-
-            <button
-              className="uploaded-delete-btn"
-              onClick={deleteUploadedFile}
-            >
-              Delete
-            </button>
-
-          </div>
-
-        )}
-
-
-
-        {/* ================================
-            NOTES GRID
-        ================================= */}
-
-        <div className="notes-grid">
-
-
-          {/* ================================
-              EXISTING NOTES
-          ================================= */}
-
-          {filteredNotes.map((note) => (
-
-            <div
-              className="note-page-card"
-              key={note.id}
-            >
-
-
-              <div className="note-page-top">
-
-                <div className={`note-page-icon ${note.color}`}>
-                  {note.icon}
-                </div>
-
-
-                <button
-                  className="note-delete-btn"
-                  onClick={() => deleteNote(note.id)}
-                >
-                  Delete
-                </button>
-
-              </div>
-
-
-              <h3>
-                {note.name}
-              </h3>
+              <h1>
+                My Notes
+              </h1>
 
 
               <p>
-                {note.description}
+
+                Manage and organize all your study
+                materials in one place.
+
               </p>
 
+            </div>
 
-              <div className="note-page-footer">
+          </div>
+
+
+
+          {/* ==================================
+              SEARCH
+          ================================== */}
+
+          <div className="notes-search">
+
+            <span>
+              🔍
+            </span>
+
+
+            <input
+
+              type="text"
+
+              placeholder="Search your notes..."
+
+              value={searchTerm}
+
+              onChange={(e) =>
+                setSearchTerm(
+                  e.target.value
+                )
+              }
+
+            />
+
+          </div>
+
+
+
+          {/* ==================================
+              STUDY OVERVIEW
+          ================================== */}
+
+          <div className="notes-overview">
+
+
+            {/* MATERIALS */}
+
+            <div className="notes-overview-card">
+
+              <div className="overview-icon purple">
+
+                📚
+
+              </div>
+
+
+              <div>
 
                 <span>
-                  📄 {note.pages}
+                  STUDY MATERIALS
                 </span>
 
 
-                <a
-                  href={`/ask-ai?note=${encodeURIComponent(note.name)}`}
-                  className="note-ask-ai"
-                >
-                  Ask AI →
-                </a>
+                <strong>
+                  {totalStudyMaterials}
+                </strong>
 
               </div>
 
             </div>
 
-          ))}
+
+
+            {/* AI STATUS */}
+
+            <div className="notes-overview-card">
+
+              <div className="overview-icon blue">
+
+                ✦
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  AI STATUS
+                </span>
+
+
+                <strong>
+                  Ready
+                </strong>
+
+              </div>
+
+            </div>
 
 
 
-          {/* ================================
-              UPLOADED PDF CARD
-          ================================= */}
+            {/* QUESTIONS */}
 
-          {selectedFile &&
+            <div className="notes-overview-card">
 
-            selectedFile.name
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase()) && (
+              <div className="overview-icon green">
 
-              <div className="note-page-card">
+                💬
+
+              </div>
 
 
-                <div className="note-page-top">
+              <div>
 
-                  <div className="note-page-icon purple">
-                    📄
+                <span>
+                  QUESTIONS ASKED
+                </span>
+
+
+                <strong>
+                  {totalQuestions}
+                </strong>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          {/* ==================================
+              NOTES GRID
+          ================================== */}
+
+          <div className="notes-grid">
+
+
+            {/* ==================================
+                DEFAULT NOTES
+            ================================== */}
+
+            {filteredNotes.map(
+              (note) => (
+
+                <div
+
+                  className="note-page-card"
+
+                  key={note.id}
+
+                >
+
+
+                  <div className="note-page-top">
+
+
+                    <div
+
+                      className={
+                        `note-page-icon ${note.color}`
+                      }
+
+                    >
+
+                      {note.icon}
+
+                    </div>
+
+
+                    <button
+
+                      className="note-delete-btn"
+
+                      onClick={() =>
+                        deleteNote(
+                          note.id
+                        )
+                      }
+
+                    >
+
+                      Delete
+
+                    </button>
+
+
                   </div>
 
 
-                  <button
-                    className="note-delete-btn"
-                    onClick={deleteUploadedFile}
-                  >
-                    Delete
-                  </button>
+
+                  <h3>
+                    {note.name}
+                  </h3>
+
+
+                  <p>
+                    {note.description}
+                  </p>
+
+
+
+                  <div className="note-page-footer">
+
+
+                    <span>
+
+                      📄 {note.pages}
+
+                    </span>
+
+
+                    <a
+
+                      href={
+                        `/ask-ai?note=${encodeURIComponent(
+                          note.name
+                        )}`
+                      }
+
+                      className="note-ask-ai"
+
+                    >
+
+                      Ask AI →
+
+                    </a>
+
+
+                  </div>
+
 
                 </div>
 
+              )
+            )}
+
+
+
+            {/* ==================================
+                UPLOADED PDF FILES
+            ================================== */}
+
+            {filteredUploadedFiles.map(
+              (file) => (
+
+                <div
+
+                  className="note-page-card"
+
+                  key={file.id}
+
+                >
+
+
+                  <div className="note-page-top">
+
+
+                    <div className="note-page-icon purple">
+
+                      📄
+
+                    </div>
+
+
+                    <button
+
+                      className="note-delete-btn"
+
+                      onClick={() =>
+                        deleteUploadedFile(
+                          file.id
+                        )
+                      }
+
+                    >
+
+                      Delete
+
+                    </button>
+
+
+                  </div>
+
+
+
+                  <h3>
+                    {file.name}
+                  </h3>
+
+
+                  <p>
+
+                    Uploaded PDF • {' '}
+
+                    {file.uploadedAt
+
+                      ? new Date(
+                          file.uploadedAt
+                        ).toLocaleDateString()
+
+                      : 'Recently'
+
+                    }
+
+                  </p>
+
+
+
+                  <div className="note-page-footer">
+
+
+                    <span>
+
+                      📄 {' '}
+
+                      {
+                        (
+                          file.size /
+                          1024 /
+                          1024
+                        ).toFixed(2)
+                      }
+
+                      {' '} MB
+
+                    </span>
+
+
+                    <a
+
+                      href={
+                        `/ask-ai?note=${encodeURIComponent(
+                          file.name
+                        )}`
+                      }
+
+                      className="note-ask-ai"
+
+                    >
+
+                      Ask AI →
+
+                    </a>
+
+
+                  </div>
+
+
+                </div>
+
+              )
+            )}
+
+
+
+            {/* ==================================
+                NO SEARCH RESULTS
+            ================================== */}
+
+            {totalMaterials === 0 && (
+
+              <div className="no-notes-message">
 
                 <h3>
-                  {selectedFile.name}
+                  No notes found
                 </h3>
 
 
                 <p>
-                  Uploaded PDF study material
+
+                  Try searching with
+                  another keyword.
+
                 </p>
-
-
-                <div className="note-page-footer">
-
-                  <span>
-                    📄 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                  </span>
-
-
-                  <a
-                    href={`/ask-ai?note=${encodeURIComponent(selectedFile.name)}`}
-                    className="note-ask-ai"
-                  >
-                    Ask AI →
-                  </a>
-
-                </div>
 
               </div>
 
@@ -358,73 +758,70 @@ function Notes() {
 
 
 
-          {/* ================================
-              NO NOTES
-          ================================= */}
+            {/* ==================================
+                ADD NEW NOTES
+            ================================== */}
 
-          {filteredNotes.length === 0 && !selectedFile && (
+            <div className="add-note-card">
 
-            <div className="no-notes-message">
+
+              <div className="add-note-icon">
+
+                +
+
+              </div>
+
 
               <h3>
-                No notes found
+                Add New Notes
               </h3>
 
+
               <p>
-                Try searching with another keyword.
+
+                Upload your PDF study material
+                to start learning.
+
               </p>
 
+
+              <label className="upload-pdf-button">
+
+                Upload PDF
+
+
+                <input
+
+                  type="file"
+
+                  accept=".pdf"
+
+                  onChange={
+                    handleFileChange
+                  }
+
+                  hidden
+
+                />
+
+              </label>
+
+
             </div>
 
-          )}
-
-
-
-          {/* ================================
-              ADD NOTES
-          ================================= */}
-
-          <div className="add-note-card">
-
-            <div className="add-note-icon">
-              +
-            </div>
-
-
-            <h3>
-              Add New Notes
-            </h3>
-
-
-            <p>
-              Upload your PDF study material
-              to start learning.
-            </p>
-
-
-            <label className="upload-pdf-button">
-
-              Upload PDF
-
-              <input
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                hidden
-              />
-
-            </label>
 
           </div>
 
 
         </div>
 
-      </div>
+      </main>
 
     </div>
 
   )
+
 }
+
 
 export default Notes

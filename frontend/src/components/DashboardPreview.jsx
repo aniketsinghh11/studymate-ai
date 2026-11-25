@@ -20,7 +20,7 @@ function DashboardPreview() {
       <div className="preview-content">
 
         <div className="preview-welcome">
-          <h3>Good Evening, Bijit 👋</h3>
+          <h3>Good Evening 👋</h3>
           <p>Ready to continue learning?</p>
         </div>
 

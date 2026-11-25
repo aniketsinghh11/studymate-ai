@@ -5,22 +5,7 @@ function HowItWorks() {
       <div className="container">
 
         {/* Heading */}
-        <div className="how-heading">
-
-          <span className="section-badge">
-            ✦ Simple & Powerful
-          </span>
-
-          <h2>
-            How <span>StudyMate AI</span> Works
-          </h2>
-
-          <p>
-            Start learning in just a few simple steps.
-            StudyMate AI keeps your study process simple and organized.
-          </p>
-
-        </div>
+       
 
         {/* Steps */}
         <div className="row g-4">

@@ -1,30 +1,15 @@
 function Features() {
   return (
     <section className="features-section" id="features">
-
       <div className="container">
 
-        <div className="features-heading">
+        {/* SECTION HEADING */}
+       
 
-          <span className="section-badge">
-            ✦ Powerful Learning Tools
-          </span>
-
-          <h2>
-            Everything You Need
-            <br />
-            <span>To Study Smarter</span>
-          </h2>
-
-          <p>
-            StudyMate AI brings your notes, AI assistance and
-            learning progress together in one simple platform.
-          </p>
-
-        </div>
-
+        {/* FEATURE CARDS */}
         <div className="row g-4">
 
+          {/* MY NOTES */}
           <div className="col-md-6 col-lg-3">
             <div className="feature-card">
               <div className="feature-icon purple-icon">
@@ -44,7 +29,7 @@ function Features() {
             </div>
           </div>
 
-
+          {/* AI TUTOR */}
           <div className="col-md-6 col-lg-3">
             <div className="feature-card">
               <div className="feature-icon blue-icon">
@@ -55,16 +40,16 @@ function Features() {
 
               <p>
                 Get simple explanations and understand difficult
-                topics more easily.
+                topics more easily using your study materials.
               </p>
 
               <a href="/ask-ai">
-                Ask AI →
+                Meet Your AI Tutor →
               </a>
             </div>
           </div>
 
-
+          {/* ASK AI */}
           <div className="col-md-6 col-lg-3">
             <div className="feature-card">
               <div className="feature-icon green-icon">
@@ -74,8 +59,8 @@ function Features() {
               <h3>Ask AI</h3>
 
               <p>
-                Ask questions about your study materials and
-                get helpful answers.
+                Ask questions about your uploaded notes and
+                get answers based on your documents.
               </p>
 
               <a href="/ask-ai">
@@ -84,7 +69,7 @@ function Features() {
             </div>
           </div>
 
-
+          {/* LEARNING PROGRESS */}
           <div className="col-md-6 col-lg-3">
             <div className="feature-card">
               <div className="feature-icon orange-icon">
@@ -94,8 +79,8 @@ function Features() {
               <h3>Progress</h3>
 
               <p>
-                Track your learning activity and see how your
-                preparation is improving.
+                Track your learning activity and monitor
+                your study progress.
               </p>
 
               <a href="/progress">
@@ -105,11 +90,9 @@ function Features() {
           </div>
 
         </div>
-
       </div>
-
     </section>
-  )
+  );
 }
 
-export default Features
+export default Features;

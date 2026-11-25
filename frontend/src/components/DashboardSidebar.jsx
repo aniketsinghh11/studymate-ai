@@ -1,22 +1,36 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 function DashboardSidebar() {
 
   const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+
+    localStorage.removeItem('studymateLoggedIn')
+
+    navigate('/login')
+  }
 
   return (
+
     <aside className="dashboard-sidebar">
 
       <div className="sidebar-logo">
+
         <span>✦</span>
+
         StudyMate <strong>AI</strong>
+
       </div>
+
 
       <div className="sidebar-section">
 
         <p className="sidebar-label">
           MAIN MENU
         </p>
+
 
         <nav className="sidebar-nav">
 
@@ -30,6 +44,7 @@ function DashboardSidebar() {
             <span>Dashboard</span>
           </Link>
 
+
           <Link
             to="/notes"
             className={`sidebar-link ${
@@ -39,6 +54,7 @@ function DashboardSidebar() {
             <span className="sidebar-icon">📚</span>
             <span>My Notes</span>
           </Link>
+
 
           <Link
             to="/ask-ai"
@@ -50,6 +66,7 @@ function DashboardSidebar() {
             <span>Ask AI</span>
           </Link>
 
+
           <Link
             to="/progress"
             className={`sidebar-link ${
@@ -59,6 +76,7 @@ function DashboardSidebar() {
             <span className="sidebar-icon">📈</span>
             <span>Progress</span>
           </Link>
+
 
           <Link
             to="/history"
@@ -74,16 +92,21 @@ function DashboardSidebar() {
 
       </div>
 
+
       <div className="sidebar-bottom">
 
-        <Link to="/" className="sidebar-link logout-link">
+        <button
+          onClick={handleLogout}
+          className="sidebar-link logout-link"
+        >
           <span className="sidebar-icon">↪</span>
           <span>Logout</span>
-        </Link>
+        </button>
 
       </div>
 
     </aside>
+
   )
 }
 

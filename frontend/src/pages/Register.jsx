@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 function Register() {
 
@@ -9,98 +9,271 @@ function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  // ================================
+  // REGISTER USER
+  // ================================
+
   const handleRegister = (e) => {
 
     e.preventDefault()
 
-    // Demo registration for frontend
+    // Remove unnecessary spaces
+    const cleanName = name.trim()
+    const cleanEmail = email.trim().toLowerCase()
+
+    // Check name
+    if (cleanName === '') {
+      alert('Please enter your full name.')
+      return
+    }
+
+    // Check email
+    if (cleanEmail === '') {
+      alert('Please enter your email.')
+      return
+    }
+
+    // Check password
+    if (password.length < 6) {
+      alert('Password must be at least 6 characters.')
+      return
+    }
+
+    // ================================
+    // SAVE USER INFORMATION
+    // ================================
+
+    localStorage.setItem(
+      'studymateName',
+      cleanName
+    )
+
+    localStorage.setItem(
+      'studymateEmail',
+      cleanEmail
+    )
+
+    // ================================
+    // SAVE LOGIN STATUS
+    // ================================
+
+    localStorage.setItem(
+      'studymateLoggedIn',
+      'true'
+    )
+
+    // ================================
+    // GO TO DASHBOARD
+    // ================================
+
     navigate('/dashboard')
   }
 
   return (
-
     <div className="auth-page">
 
-      <div className="auth-card">
+      <div className="register-layout">
 
-        <div className="auth-logo">
-          <span>✦</span>
-          StudyMate <strong>AI</strong>
+        {/* ================================
+            LEFT INFORMATION PANEL
+        ================================= */}
+
+        <div className="register-info">
+
+          <div className="register-badge">
+            ✦ AI-Powered Learning
+          </div>
+
+          <h2>
+            Learn smarter.
+            <br />
+            <span>Grow faster.</span>
+          </h2>
+
+          <p>
+            Create your StudyMate account and keep
+            your notes, questions and learning progress
+            all in one place.
+          </p>
+
+          <div className="register-benefits">
+
+            <div className="register-benefit">
+
+              <div className="register-benefit-icon">
+                📚
+              </div>
+
+              <div className="register-benefit-text">
+                <strong>Keep your study materials</strong>
+                <span>Access your notes whenever you need them.</span>
+              </div>
+
+            </div>
+
+
+            <div className="register-benefit">
+
+              <div className="register-benefit-icon">
+                ✦
+              </div>
+
+              <div className="register-benefit-text">
+                <strong>Ask your AI Assistant</strong>
+                <span>Get simple answers from your study materials.</span>
+              </div>
+
+            </div>
+
+
+            <div className="register-benefit">
+
+              <div className="register-benefit-icon">
+                📈
+              </div>
+
+              <div className="register-benefit-text">
+                <strong>Track your progress</strong>
+                <span>See your learning activity in one place.</span>
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <h1>Create Account</h1>
 
-        <p className="auth-subtitle">
-          Start your smarter learning journey today.
-        </p>
+        {/* ================================
+            RIGHT REGISTER FORM
+        ================================= */}
 
-        <form onSubmit={handleRegister}>
+        <div className="register-form-side">
 
-          <div className="auth-field">
+          <div className="register-form">
 
-            <label>Full Name</label>
+            {/* Logo */}
 
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
+            <div className="register-logo">
+              <span>✦</span>
+              StudyMate <span>AI</span>
+            </div>
+
+
+            {/* Heading */}
+
+            <h1>
+              Create Account
+            </h1>
+
+            <p className="register-subtitle">
+              Start your smarter learning journey today.
+            </p>
+
+
+            {/* Registration Form */}
+
+            <form onSubmit={handleRegister}>
+
+              {/* Full Name */}
+
+              <div className="register-field">
+
+                <label>
+                  Full Name
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) =>
+                    setName(e.target.value)
+                  }
+                  required
+                />
+
+              </div>
+
+
+              {/* Email */}
+
+              <div className="register-field">
+
+                <label>
+                  Email
+                </label>
+
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
+                  required
+                />
+
+              </div>
+
+
+              {/* Password */}
+
+              <div className="register-field">
+
+                <label>
+                  Password
+                </label>
+
+                <input
+                  type="password"
+                  placeholder="Create a password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                  required
+                />
+
+              </div>
+
+
+              {/* Register Button */}
+
+              <button
+                type="submit"
+                className="register-submit"
+              >
+                Create Account →
+              </button>
+
+            </form>
+
+
+            <p className="register-note">
+              Your account is stored securely in this demo.
+            </p>
+
+
+            {/* Login Link */}
+
+            <p className="auth-bottom">
+
+              Already have an account?
+
+              <Link to="/login">
+                Login
+              </Link>
+
+            </p>
 
           </div>
 
-          <div className="auth-field">
-
-            <label>Email</label>
-
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-
-          </div>
-
-          <div className="auth-field">
-
-            <label>Password</label>
-
-            <input
-              type="password"
-              placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-          </div>
-
-          <button
-            type="submit"
-            className="auth-submit"
-          >
-            Create Account →
-          </button>
-
-        </form>
-
-        <p className="auth-bottom">
-
-          Already have an account?
-
-          <a href="/login">
-            Login
-          </a>
-
-        </p>
+        </div>
 
       </div>
 
     </div>
-
   )
 }
 

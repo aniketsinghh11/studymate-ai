@@ -1,0 +1,267 @@
+/* ==========================================
+   STUDYMATE AI - FEATURES PAGE
+   DARK EMERALD PREMIUM
+========================================== */
+
+.features-page {
+  background: #0B1535;
+  color: #F1F5FF;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ================= HERO SECTION ================= */
+
+.features-page .features-hero {
+  min-height: 480px;
+  width: 100%;
+  background: linear-gradient(135deg, #101D45, #172B59, #253B70);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 90px 24px;
+  text-align: center;
+}
+
+.features-page .features-hero-content {
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+/* BADGE */
+
+.features-page .features-badge {
+  display: inline-block;
+  padding: 10px 18px;
+  background: #243768;
+  border: 1px solid #354A7C;
+  border-radius: 50px;
+
+  color: #B9A8FF;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+/* HERO HEADING */
+
+.features-page .features-hero h1 {
+  font-size: clamp(42px, 5vw, 66px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -1.8px;
+  color: #F8FAFC;
+  margin: 22px 0;
+}
+
+.features-page .features-hero h1 span {
+  color: #A99AFF;
+}
+
+/* HERO DESCRIPTION */
+
+.features-page .features-hero p {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #B9C6E2;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* ================= FEATURES SECTION ================= */
+
+.features-page .features-content {
+  background: #0B1535;
+  padding: 75px 0 90px;
+}
+
+.features-page .features-content > .container {
+  max-width: 1200px;
+}
+
+/* ================= FEATURE BOXES ================= */
+
+.features-page .features-section .row {
+  align-items: stretch;
+}
+
+.features-page .features-section .row > div {
+  display: flex;
+}
+
+/* BOX DESIGN - HOW IT WORKS STYLE */
+
+.features-page .feature-card {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+
+  padding: 32px 26px;
+
+  background: #142347;
+  border: 1px solid #263A65;
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  transition: all 0.3s ease;
+}
+
+/* BOX HOVER */
+
+.features-page .feature-card:hover {
+  transform: translateY(-6px);
+  background: #192B51;
+  border-color: #6554B8;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* ================= ICONS ================= */
+
+.features-page .feature-icon {
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+  border-radius: 14px;
+  margin-bottom: 22px;
+}
+
+/* ICON BACKGROUNDS */
+
+.features-page .purple-icon {
+  background: #35304E;
+}
+
+.features-page .blue-icon {
+  background: #263B50;
+}
+
+.features-page .green-icon {
+  background: #25483D;
+}
+
+.features-page .orange-icon {
+  background: #4A3D34;
+}
+
+/* ================= CARD TITLE ================= */
+
+.features-page .feature-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #F3F5FF;
+  margin-bottom: 12px;
+}
+
+/* ================= CARD DESCRIPTION ================= */
+
+.features-page .feature-card p {
+  color: #AAB8D6;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+/* ================= CARD LINKS ================= */
+
+.features-page .feature-card a {
+  display: inline-block;
+
+  color: #A99AFF;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-top: auto;
+  padding-top: 10px;
+
+  transition: all 0.3s ease;
+}
+
+.features-page .feature-card a:hover {
+  color: #D1C8FF;
+  transform: translateX(4px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 991px) {
+  .features-page .features-hero {
+    min-height: 420px;
+    padding: 75px 24px;
+  }
+
+  .features-page .features-content {
+    padding: 60px 20px;
+  }
+
+  .features-page .feature-card {
+    padding: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-page .features-hero {
+    min-height: auto;
+    padding: 75px 20px;
+  }
+
+  .features-page .features-hero h1 {
+    font-size: 44px;
+    letter-spacing: -1px;
+  }
+
+  .features-page .features-hero p {
+    font-size: 14px;
+  }
+
+  .features-page .feature-card {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-page .features-hero h1 {
+    font-size: 36px;
+  }
+
+  .features-page .features-badge {
+    font-size: 11px;
+  }
+
+  .features-page .feature-card {
+    padding: 24px;
+    min-height: auto;
+  }
+}
+/* REMOVE WHITE SPACE AROUND FEATURE BOXES */
+
+.features-page,
+.features-page .features-content,
+.features-page .features-section,
+.features-page .features-section .container {
+  background: #0B1535 !important;
+}
+
+.features-page .features-section .row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.features-page .features-section [class*="col-"] {
+  background: transparent !important;
+}

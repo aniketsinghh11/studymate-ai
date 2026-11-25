@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 function Login() {
 
@@ -8,85 +8,286 @@ function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+
+  // ================================
+  // LOGIN USER
+  // ================================
+
   const handleLogin = (e) => {
 
     e.preventDefault()
 
-    // Demo login for frontend
+    const cleanEmail =
+      email.trim().toLowerCase()
+
+
+    if (cleanEmail === '') {
+
+      alert('Please enter your email.')
+      return
+
+    }
+
+
+    if (password.length < 6) {
+
+      alert(
+        'Password must be at least 6 characters.'
+      )
+
+      return
+
+    }
+
+
+    // Save current user's email
+
+    localStorage.setItem(
+      'studymateEmail',
+      cleanEmail
+    )
+
+
+    // Save login status
+
+    localStorage.setItem(
+      'studymateLoggedIn',
+      'true'
+    )
+
+
+    // Go to dashboard
+
     navigate('/dashboard')
+
   }
+
 
   return (
 
     <div className="auth-page">
 
-      <div className="auth-card">
 
-        <div className="auth-logo">
-          <span>✦</span>
-          StudyMate <strong>AI</strong>
+      <div className="login-layout">
+
+
+        {/* =================================
+            LEFT INFORMATION PANEL
+        ================================= */}
+
+        <div className="login-info">
+
+
+          <div className="login-badge">
+            ✦ AI-Powered Learning
+          </div>
+
+
+          <h2>
+            Welcome back.
+            <br />
+            <span>Let's keep learning.</span>
+          </h2>
+
+
+          <p>
+            Your notes, AI assistant and learning
+            progress are waiting for you.
+            Continue your study journey with StudyMate.
+          </p>
+
+
+          <div className="login-benefits">
+
+
+            <div className="login-benefit">
+
+              <div className="login-benefit-icon">
+                📚
+              </div>
+
+              <div className="login-benefit-text">
+
+                <strong>
+                  Your Study Materials
+                </strong>
+
+                <span>
+                  Keep your learning materials organized.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div className="login-benefit">
+
+              <div className="login-benefit-icon">
+                ✦
+              </div>
+
+              <div className="login-benefit-text">
+
+                <strong>
+                  StudyMate AI
+                </strong>
+
+                <span>
+                  Ask questions and understand concepts easily.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div className="login-benefit">
+
+              <div className="login-benefit-icon">
+                📈
+              </div>
+
+              <div className="login-benefit-text">
+
+                <strong>
+                  Track Your Progress
+                </strong>
+
+                <span>
+                  See your learning activity in one place.
+                </span>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+
         </div>
 
-        <h1>Welcome Back</h1>
 
-        <p className="auth-subtitle">
-          Login to continue your learning journey.
-        </p>
+        {/* =================================
+            RIGHT LOGIN FORM
+        ================================= */}
 
-        <form onSubmit={handleLogin}>
+        <div className="login-form-side">
 
-          <div className="auth-field">
 
-            <label>Email</label>
+          <div className="login-form">
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+
+            {/* LOGO */}
+
+            <div className="login-logo">
+
+              <span>✦</span>
+
+              StudyMate <strong>AI</strong>
+
+            </div>
+
+
+            {/* HEADING */}
+
+            <h1>
+              Welcome Back
+            </h1>
+
+
+            <p className="login-subtitle">
+              Login to continue your learning journey.
+            </p>
+
+
+            {/* FORM */}
+
+            <form onSubmit={handleLogin}>
+
+
+              {/* EMAIL */}
+
+              <div className="login-field">
+
+                <label>
+                  Email
+                </label>
+
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
+                  required
+                />
+
+              </div>
+
+
+              {/* PASSWORD */}
+
+              <div className="login-field">
+
+                <label>
+                  Password
+                </label>
+
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                  required
+                />
+
+              </div>
+
+
+              {/* LOGIN BUTTON */}
+
+              <button
+                type="submit"
+                className="login-submit"
+              >
+                Login →
+              </button>
+
+
+            </form>
+
+
+            {/* REGISTER */}
+
+            <p className="auth-bottom">
+
+              Don't have an account?
+
+              <Link to="/register">
+                Create Account
+              </Link>
+
+            </p>
+
 
           </div>
 
-          <div className="auth-field">
 
-            <label>Password</label>
+        </div>
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-
-          </div>
-
-          <button
-            type="submit"
-            className="auth-submit"
-          >
-            Login →
-          </button>
-
-        </form>
-
-        <p className="auth-bottom">
-
-          Don't have an account?
-
-          <a href="/register">
-            Create Account
-          </a>
-
-        </p>
 
       </div>
+
 
     </div>
 
   )
+
 }
 
 export default Login

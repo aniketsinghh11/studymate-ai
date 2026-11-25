@@ -1,0 +1,187 @@
+/* =========================================
+   STUDYMATE AI - HOW IT WORKS
+   DARK PREMIUM THEME
+========================================= */
+
+.how-it-works-page {
+  background: #0B1535;
+  color: #F1F5FF;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* HERO SECTION */
+
+.how-it-works-page .inner-hero {
+  background: linear-gradient(
+    135deg,
+    #101D45 0%,
+    #172B59 55%,
+    #253B70 100%
+  );
+  padding: 100px 20px 95px;
+  position: relative;
+}
+
+.how-it-works-page .inner-hero .container {
+  max-width: 900px;
+}
+
+/* BADGE */
+
+.how-it-works-page .hero-badge {
+  display: inline-block;
+  background: #243768;
+  color: #B9A8FF;
+  border: 1px solid #354A7C;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+}
+
+/* HEADING */
+
+.how-it-works-page .inner-hero h1 {
+  font-size: clamp(42px, 5vw, 66px);
+  line-height: 1.2;
+  font-weight: 750;
+  letter-spacing: -1.8px;
+  color: #FFFFFF;
+  margin: 28px 0 22px;
+}
+
+.how-it-works-page .inner-hero h1 span {
+  color: #A99AFF;
+}
+
+/* DESCRIPTION */
+
+.how-it-works-page .inner-hero p {
+  max-width: 650px;
+  margin: 0 auto;
+  color: #B9C6E2;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* STEPS BACKGROUND */
+
+.how-it-works-page .how-it-works-section {
+  background: #0B1535;
+  padding: 85px 0;
+}
+
+/* STEP CARDS */
+
+.how-it-works-page .step-card {
+  height: 100%;
+  padding: 32px 26px;
+  background: #142347;
+  border: 1px solid #263A65;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.how-it-works-page .step-card:hover {
+  transform: translateY(-6px);
+  background: #192B51;
+  border-color: #6554B8;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* STEP NUMBER */
+
+.how-it-works-page .step-number {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #293A69;
+  color: #B8A8FF;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* ICON */
+
+.how-it-works-page .step-icon {
+  font-size: 32px;
+  margin-bottom: 18px;
+}
+
+/* CARD HEADING */
+
+.how-it-works-page .step-card h3 {
+  color: #F3F5FF;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+/* CARD TEXT */
+
+.how-it-works-page .step-card p {
+  color: #AAB8D6;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 0;
+}
+
+/* NAVBAR */
+
+.how-it-works-page .navbar {
+  background: #080F35 !important;
+}
+
+.how-it-works-page .navbar-brand {
+  color: #FFFFFF !important;
+}
+
+.how-it-works-page .navbar .nav-link {
+  color: #D9E2F7 !important;
+}
+
+.how-it-works-page .navbar .nav-link:hover {
+  color: #A99AFF !important;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 991px) {
+  .how-it-works-page .how-it-works-section {
+    padding: 65px 20px;
+  }
+
+  .how-it-works-page .step-card {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .how-it-works-page .inner-hero {
+    padding: 75px 20px;
+  }
+
+  .how-it-works-page .inner-hero h1 {
+    font-size: 44px;
+  }
+
+  .how-it-works-page .inner-hero p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .how-it-works-page .inner-hero h1 {
+    font-size: 36px;
+  }
+
+  .how-it-works-page .step-card {
+    padding: 25px;
+  }
+}
