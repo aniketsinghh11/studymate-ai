@@ -1,3 +1,4 @@
+```jsx
 import '../AboutPage.css'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -37,62 +38,65 @@ function AboutPage() {
         <section className="about-content-section">
           <div className="container">
 
-            <div className="row align-items-center g-5">
+            {/* PURPOSE HEADING */}
+            <div className="about-purpose-heading">
 
-              <div className="col-lg-6">
-                <div className="about-content-card">
+              <span className="section-badge">
+                Our Purpose
+              </span>
 
-                  <span className="section-badge">
-                    Our Purpose
-                  </span>
+              <h2>
+                Learn with
+                <span> Confidence.</span>
+              </h2>
 
-                  <h2>
-                    Learn with
-                    <span> Confidence.</span>
-                  </h2>
+              <p>
+                StudyMate AI is an AI-powered study assistant designed
+                to help students learn more effectively using their own
+                study materials.
+              </p>
 
-                  <p>
-                    StudyMate AI is an AI-powered study assistant
-                    designed to help students learn more effectively
-                    using their own study materials.
-                  </p>
+              <p>
+                Upload your notes, ask questions about your documents,
+                and get answers grounded in the materials you provide.
+              </p>
 
-                  <p>
-                    Upload your notes, ask questions about your
-                    documents, and get answers grounded in the
-                    materials you provide.
-                  </p>
+            </div>
 
-                </div>
-              </div>
+            {/* PURPOSE CARDS */}
+            <div className="row g-4 about-purpose-cards">
 
-              <div className="col-lg-6">
+              {/* CARD 1 */}
+              <div className="col-md-6">
                 <div className="about-highlight-card">
 
                   <div className="about-highlight-icon">
                     📚
                   </div>
 
-                  <h3>
-                    Built Around Your Notes
-                  </h3>
+                  <h3>Built Around Your Notes</h3>
 
                   <p>
-                    Your study materials are at the center of
-                    your learning experience.
+                    Your study materials are at the center of your
+                    learning experience.
                   </p>
+
+                </div>
+              </div>
+
+              {/* CARD 2 */}
+              <div className="col-md-6">
+                <div className="about-highlight-card">
 
                   <div className="about-highlight-icon">
                     🤖
                   </div>
 
-                  <h3>
-                    AI-Assisted Learning
-                  </h3>
+                  <h3>AI-Assisted Learning</h3>
 
                   <p>
-                    Ask questions and explore concepts using
-                    your uploaded study documents.
+                    Ask questions and explore concepts using your
+                    uploaded study documents.
                   </p>
 
                 </div>
@@ -111,3 +115,4 @@ function AboutPage() {
 }
 
 export default AboutPage
+```

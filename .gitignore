@@ -1,2 +1,13 @@
-node_modules/
 .env
+uploads/
+node_modules/
+chroma_data/
+__pycache__/
+# Local test files
+ai/*-test.py
+ai/*-test.js
+ai/*-backup*.py
+ai/*.pdf
+ai/pdf-chunking.js
+ai/pdf-embedding.js
+ai/store-embeddings.

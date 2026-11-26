@@ -40,7 +40,7 @@ a {
 }
 
 .logo-icon {
-  color: #635bff;
+  color: #2c23d4;
   margin-right: 5px;
 }
 
@@ -68,7 +68,7 @@ a {
 }
 
 .login-link {
-  color: #080F35;
+  color: #2566c1;
   font-size: 15px;
   font-weight: 600;
 }
@@ -607,6 +607,7 @@ a {
 .features-heading h2 span {
   background: linear-gradient(90deg, #5b4df3, #9270ff, #46a9ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 

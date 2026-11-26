@@ -16,6 +16,7 @@ import Notes from './pages/Notes'
 import AskAI from './pages/AskAI'
 import Progress from './pages/Progress'
 import History from './pages/History'
+import ProtectedRoute from './ProtectedRoute'
 
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -80,6 +81,13 @@ function App() {
           }
         />
 
+        <Route path="/notes" element={<ProtectedRoute><Notes /></ProtectedRoute>} />
+        
+        <Route path="/ask-ai" element={<ProtectedRoute><AskAI /></ProtectedRoute>} />
+        
+        <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+        
+        <Route path="/history" element={<ProtectedRoute><History /></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   )

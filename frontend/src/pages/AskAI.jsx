@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { askAI } from '../api'
 
 function AskAI() {
   const [searchParams] = useSearchParams()
@@ -26,6 +27,7 @@ function AskAI() {
   const [messages, setMessages] = useState([
     welcomeMessage
   ])
+
 
   // ================================
   // AUTO SCROLL
@@ -125,24 +127,30 @@ function AskAI() {
     // DEMO AI RESPONSE
     // ================================
 
-    setTimeout(() => {
-      const aiMessage = {
-        type: 'ai',
-        text: selectedNote
-          ? `I'm currently a demo version. Once the AI backend is connected, I'll answer your question using "${selectedNote}" as the study material.`
-          : "I'm currently a demo version. Once the AI backend is connected, I'll answer this question using your uploaded study materials."
-      }
+    // ================================
+    // REAL AI RESPONSE
+    // ================================
 
-      setMessages(
-        (previousMessages) => [
+    askAI(userQuestion)
+      .then((result) => {
+        setMessages((previousMessages) => [
           ...previousMessages,
-          aiMessage
-        ]
-      )
-
-      setIsThinking(false)
-    }, 1600)
-  }
+          { type: 'ai', text: result.answer }
+        ])
+      })
+      .catch((err) => {
+        console.error('Ask AI error:', err)
+        setMessages((previousMessages) => [
+          ...previousMessages,
+          {
+            type: 'ai',
+            text: 'Sorry, I could not reach the AI service. Please try again.'
+          }
+        ])
+      })
+      .finally(() => {
+        setIsThinking(false)
+      })
 
   // ================================
   // CLEAR CHAT
@@ -164,9 +172,8 @@ function AskAI() {
     setMessages([
       welcomeMessage
     ])
-
-    setQuestion('')
   }
+}
 
   // ================================
   // SUGGESTED QUESTIONS

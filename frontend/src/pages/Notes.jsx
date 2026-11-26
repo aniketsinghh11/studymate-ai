@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { uploadPDF } from '../api'
 
 import DashboardSidebar from '../components/DashboardSidebar'
 
@@ -111,84 +112,57 @@ function Notes() {
      UPLOAD PDF
   ========================================== */
 
-  const handleFileChange = (event) => {
+const handleFileChange = async (event) => {
+  
 
-    const file =
+const file =
       event.target.files[0]
 
     if (!file) {
       return
     }
 
-
     if (
       file.type !== 'application/pdf' &&
       !file.name.toLowerCase().endsWith('.pdf')
     ) {
-
-      alert(
-        'Please select a PDF file only.'
-      )
-
+      alert('Please select a PDF file only.')
       event.target.value = ''
-
       return
     }
 
+    try {
+      const result = await uploadPDF(file)
 
-    const fileData = {
+      const fileData = {
+        id: Date.now(),
+        name: file.name,
+        size: file.size,
+        type: 'application/pdf',
+        uploadedAt: new Date().toISOString(),
+        documentId: result.documentId,
+        chunkCount: result.chunkCount
+      }
 
-      id: Date.now(),
+      const updatedFiles = [...uploadedFiles, fileData]
 
-      name: file.name,
+      setUploadedFiles(updatedFiles)
 
-      size: file.size,
+      localStorage.setItem(
+        fileStorageKey,
+        JSON.stringify(updatedFiles)
+      )
 
-      type: 'application/pdf',
-
-      uploadedAt:
-        new Date().toISOString()
-
+      window.dispatchEvent(
+        new Event('studymateFilesChanged')
+      )
+    } catch (err) {
+      alert(err.message)
     }
 
-
-    const updatedFiles = [
-
-      ...uploadedFiles,
-
-      fileData
-
-    ]
-
-
-    setUploadedFiles(
-      updatedFiles
-    )
-
-
-    localStorage.setItem(
-
-      fileStorageKey,
-
-      JSON.stringify(
-        updatedFiles
-      )
-
-    )
-
-
-    window.dispatchEvent(
-
-      new Event(
-        'studymateFilesChanged'
-      )
-
-    )
-
-
     event.target.value = ''
-
   }
+
 
 
   /* ==========================================

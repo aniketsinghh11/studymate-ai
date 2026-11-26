@@ -9,38 +9,6 @@
   overflow: hidden;
   font-family: inherit;
 }
-/* =========================================
-   NAVBAR - FEATURES PAGE
-========================================= */
-
-.features-page .navbar {
-  background: #080F35 !important;
-  padding: 15px 0;
-}
-
-.features-page .navbar-brand {
-  color: #ffffff !important;
-}
-
-.features-page .navbar-brand span,
-.features-page .logo-ai {
-  color: #9B7BFF !important;
-}
-
-.features-page .navbar .nav-link {
-  color: #D5DDF5 !important;
-  transition: 0.25s ease;
-}
-
-.features-page .navbar .nav-link:hover {
-  color: #A98AFF !important;
-}
-
-.features-page .navbar .btn,
-.features-page .navbar button {
-  transition: 0.25s ease;
-}
-
 
 
 /* =========================================

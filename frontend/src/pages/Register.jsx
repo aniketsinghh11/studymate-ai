@@ -1,23 +1,26 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { signup, login } from '../api'
 
 function Register() {
 
   const navigate = useNavigate()
+const [error, setError] = useState('')
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // ================================
+// ================================
   // REGISTER USER
   // ================================
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
 
-    e.preventDefault()
+  e.preventDefault()
+  setError('')
 
-    // Remove unnecessary spaces
+// Remove unnecessary spaces
     const cleanName = name.trim()
     const cleanEmail = email.trim().toLowerCase()
 
@@ -39,35 +42,23 @@ function Register() {
       return
     }
 
-    // ================================
-    // SAVE USER INFORMATION
-    // ================================
+    try {
+      await signup({ name: cleanName, email: cleanEmail, password })
 
-    localStorage.setItem(
-      'studymateName',
-      cleanName
-    )
+      const result = await login({ email: cleanEmail, password })
 
-    localStorage.setItem(
-      'studymateEmail',
-      cleanEmail
-    )
+      localStorage.setItem('token', result.token)
+      localStorage.setItem('studymateName', cleanName)
+      localStorage.setItem('studymateEmail', cleanEmail)
+      localStorage.setItem('studymateLoggedIn', 'true')
 
-    // ================================
-    // SAVE LOGIN STATUS
-    // ================================
-
-    localStorage.setItem(
-      'studymateLoggedIn',
-      'true'
-    )
-
-    // ================================
-    // GO TO DASHBOARD
-    // ================================
-
-    navigate('/dashboard')
+      navigate('/dashboard')
+    } catch (err) {
+      alert(err.message)
+    }
+    
   }
+}
 
   return (
     <div className="auth-page">
@@ -269,12 +260,12 @@ function Register() {
 
           </div>
 
-        </div>
+</div>
 
       </div>
 
     </div>
   )
-}
+
 
 export default Register

@@ -1,66 +1,50 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { login } from '../api'
 
 function Login() {
 
   const navigate = useNavigate()
+  const [error, setError] = useState('')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-
-  // ================================
+// ================================
   // LOGIN USER
   // ================================
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
 
-    e.preventDefault()
+  e.preventDefault()
+  setError('')
 
-    const cleanEmail =
+const cleanEmail =
       email.trim().toLowerCase()
 
-
     if (cleanEmail === '') {
-
       alert('Please enter your email.')
       return
-
     }
-
 
     if (password.length < 6) {
-
-      alert(
-        'Password must be at least 6 characters.'
-      )
-
+      alert('Password must be at least 6 characters.')
       return
-
     }
 
+    try {
+      const result = await login({ email: cleanEmail, password })
 
-    // Save current user's email
+      localStorage.setItem('token', result.token)
+      localStorage.setItem('studymateEmail', cleanEmail)
+      localStorage.setItem('studymateLoggedIn', 'true')
 
-    localStorage.setItem(
-      'studymateEmail',
-      cleanEmail
-    )
-
-
-    // Save login status
-
-    localStorage.setItem(
-      'studymateLoggedIn',
-      'true'
-    )
-
-
-    // Go to dashboard
-
-    navigate('/dashboard')
-
+      navigate('/dashboard')
+    } catch (err) {
+      alert(err.message)
+    }
   }
+
 
 
   return (
@@ -279,6 +263,7 @@ function Login() {
 
 
         </div>
+
 
 
       </div>
