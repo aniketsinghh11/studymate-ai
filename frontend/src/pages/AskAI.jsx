@@ -151,7 +151,8 @@ function AskAI() {
       .finally(() => {
         setIsThinking(false)
       })
-
+      
+    }
   // ================================
   // CLEAR CHAT
   // ================================
@@ -173,7 +174,7 @@ function AskAI() {
       welcomeMessage
     ])
   }
-}
+
 
   // ================================
   // SUGGESTED QUESTIONS

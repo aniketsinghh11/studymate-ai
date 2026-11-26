@@ -1,4 +1,5 @@
 import os
+import time
 from google import genai
 
 
@@ -50,9 +51,22 @@ Question:
 Answer:
 """
 
-    interaction = gemini.interactions.create(
-        model="gemini-3.6-flash",
-        input=prompt
-    )
+    last_error = None
 
-    return interaction.output_text
+    models = [
+        "gemini-3.6-flash",
+        "gemini-3.5-flash",
+        "gemini-3.5-flash-lite",
+    ]
+
+    for model_name in models:
+        try:
+            interaction = gemini.interactions.create(
+                model=model_name,
+                input=prompt
+            )
+            return interaction.output_text
+        except Exception as error:
+            print(f"Gemini model {model_name} failed: {error}")
+
+    return "The AI service is busy right now. Please try again in a minute."
