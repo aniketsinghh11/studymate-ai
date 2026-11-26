@@ -1,4 +1,3 @@
-```jsx
 import '../AboutPage.css'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -115,4 +114,3 @@ function AboutPage() {
 }
 
 export default AboutPage
-```

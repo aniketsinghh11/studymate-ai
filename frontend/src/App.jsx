@@ -18,7 +18,6 @@ import Progress from './pages/Progress'
 import History from './pages/History'
 import ProtectedRoute from './ProtectedRoute'
 
-import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
