@@ -141,7 +141,8 @@ const file =
         type: 'application/pdf',
         uploadedAt: new Date().toISOString(),
         documentId: result.documentId,
-        chunkCount: result.chunkCount
+        chunkCount: result.chunkCount,
+        storedName: result.fileName
       }
 
       const updatedFiles = [...uploadedFiles, fileData]
@@ -681,9 +682,11 @@ const file =
 
                     <a
 
-                      href={
+                                            href={
                         `/ask-ai?note=${encodeURIComponent(
                           file.name
+                        )}&doc=${encodeURIComponent(
+                          file.storedName || ''
                         )}`
                       }
 

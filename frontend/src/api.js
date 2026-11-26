@@ -39,11 +39,11 @@ export async function uploadPDF(file) {
   return result;
 }
 
-export async function askAI(question) {
+export async function askAI(question, document) {
   const res = await fetch(`${import.meta.env.VITE_AI_API_URL}/ask`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question }),
+    body: JSON.stringify({ question, document: document || null }),
   });
 
   const result = await res.json();

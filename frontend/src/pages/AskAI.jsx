@@ -6,6 +6,7 @@ function AskAI() {
   const [searchParams] = useSearchParams()
 
   const selectedNote = searchParams.get('note')
+  const selectedDocument = searchParams.get('doc')
   const dashboardQuestion = searchParams.get('question')
 
   const [question, setQuestion] = useState(
@@ -131,7 +132,7 @@ function AskAI() {
     // REAL AI RESPONSE
     // ================================
 
-    askAI(userQuestion)
+      askAI(userQuestion, selectedDocument)
       .then((result) => {
         setMessages((previousMessages) => [
           ...previousMessages,

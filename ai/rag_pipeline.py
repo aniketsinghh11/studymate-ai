@@ -90,10 +90,11 @@ def process_pdf(pdf_path):
 # 7. USER QUESTION
 # ============================================
 
-def answer_question(question):
+def answer_question(question, document=None):
     retrieved_chunks = retrieve_chunks(
         question,
-        top_k=6
+        top_k=6,
+        document=document
     )
 
     answer = generate_answer(

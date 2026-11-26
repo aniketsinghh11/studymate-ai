@@ -36,6 +36,7 @@ const cleanEmail =
       const result = await login({ email: cleanEmail, password })
 
       localStorage.setItem('token', result.token)
+      localStorage.setItem('studymateName', result.user.name)
       localStorage.setItem('studymateEmail', cleanEmail)
       localStorage.setItem('studymateLoggedIn', 'true')
 

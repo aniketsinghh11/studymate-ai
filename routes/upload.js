@@ -67,7 +67,8 @@ router.post('/', authMiddleware, upload.single('pdf'), async (req, res) => {
     res.status(200).json({
       message: 'File uploaded, processed, and saved successfully',
       documentId: newDocument._id,
-      chunkCount: chunks.length
+      chunkCount: chunks.length,
+      fileName: req.file.filename
     });
 
   } catch (err) {

@@ -15,6 +15,7 @@ app.add_middleware(
 )
 class QuestionRequest(BaseModel):
     question: str
+    document: str | None = None
 
 @app.get("/")
 def home():
@@ -26,7 +27,8 @@ def home():
 def ask_question(request: QuestionRequest):
 
     result = answer_question(
-        request.question
+        request.question,
+        request.document
     )
     return result
 

@@ -1,11 +1,18 @@
 import os
-import time
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 from google import genai
 
 
 gemini = genai.Client(
     api_key=os.environ["GEMINI_API_KEY"]
 )
+
+MODELS = [
+    "gemini-3.5-flash-lite",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    
+]
 
 
 def generate_answer(question, retrieved_chunks):
@@ -51,22 +58,24 @@ Question:
 Answer:
 """
 
-    last_error = None
+    def call_model(model_name):
+        interaction = gemini.interactions.create(
+            model=model_name,
+            input=prompt
+        )
+        return interaction.output_text
 
-    models = [
-        "gemini-3.6-flash",
-        "gemini-3.5-flash",
-        "gemini-3.5-flash-lite",
-    ]
+    for model_name in MODELS:
+        executor = ThreadPoolExecutor(max_workers=1)
+        future = executor.submit(call_model, model_name)
 
-    for model_name in models:
         try:
-            interaction = gemini.interactions.create(
-                model=model_name,
-                input=prompt
-            )
-            return interaction.output_text
+            return future.result(timeout=15)
+        except FutureTimeout:
+            print(f"Gemini model {model_name} timed out after 15 seconds")
         except Exception as error:
             print(f"Gemini model {model_name} failed: {error}")
+        finally:
+            executor.shutdown(wait=False)
 
     return "The AI service is busy right now. Please try again in a minute."
